@@ -7,7 +7,6 @@ function App() {
 
     return (
         <div className="App">
-            <div></div>
             <div className="card">
                 <button onClick={() => setCount((count) => count + 5)}>
                     count plus

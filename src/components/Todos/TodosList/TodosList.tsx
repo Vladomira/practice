@@ -12,12 +12,7 @@ const TodosList = ({ items, setTodoList }: TodoListProps) => {
          {items.length > 1 && (
             <ul>
                {items?.map((el) => (
-                  <TodosItem
-                     key={el.id}
-                     item={el}
-                     items={items}
-                     setTodoList={setTodoList}
-                  />
+                  <TodosItem key={el.id} item={el} setTodoList={setTodoList} />
                ))}
             </ul>
          )}

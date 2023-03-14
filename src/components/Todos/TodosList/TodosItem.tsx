@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Link } from "react-router-dom";
 import { makeTodosRequest } from "../../../api/todos/todos-request";
 import { TodoItem } from "../TodoTypes";
 import { TodoListProps } from "./TodosList";
 
-type TodosItemProps = TodoListProps & {
+type TodosItemProps = {
    item: TodoItem;
+   setTodoList?: Dispatch<SetStateAction<TodoItem[]>>;
 };
-const TodosItem = ({ item, items, setTodoList }: TodosItemProps) => {
+const TodosItem = ({ item, setTodoList }: TodosItemProps) => {
    const { id, completed, title, user } = item;
    const [isCompleted, setisCompleted] = useState(completed);
 
@@ -28,17 +30,23 @@ const TodosItem = ({ item, items, setTodoList }: TodosItemProps) => {
         deleteTodo(id: "${id}" )
     }`;
       await makeTodosRequest(deleteById);
-      setTodoList((prev) => {
-         const newItems = prev.filter((el) => el.id !== id);
-         return newItems;
-      });
+      setTodoList &&
+         setTodoList((prev) => {
+            const newItems = prev.filter((el) => el.id !== id);
+            return newItems;
+         });
    };
    return (
-      <>
-         <li
+      <li
+         style={{
+            listStyle: "none",
+         }}
+      >
+         <Link
+            to={`/todos/${id}`}
             style={{
                display: "flex",
-               alignItems: "center",
+               flexDirection: "row",
             }}
          >
             <div
@@ -46,7 +54,8 @@ const TodosItem = ({ item, items, setTodoList }: TodosItemProps) => {
                   background: `${isCompleted ? "blue" : "red"}`,
                   width: "20px",
                   height: "20px",
-                  margin: "5px 5px 5px 0px",
+                  margin: "0px 5px 0px 0px",
+                  display: "inline-block",
                }}
                onClick={handleCompleted}
             />
@@ -59,8 +68,8 @@ const TodosItem = ({ item, items, setTodoList }: TodosItemProps) => {
             <button type="button" onClick={onDelete}>
                Delete
             </button>
-         </li>
-      </>
+         </Link>
+      </li>
    );
 };
 export default TodosItem;

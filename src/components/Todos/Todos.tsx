@@ -4,7 +4,7 @@ import { TodosForms } from "./Todos-Forms";
 import TodosList from "./TodosList/TodosList";
 import { TodoItem } from "./TodoTypes";
 
-const initState = {
+export const initTodoState = {
    id: 0,
    title: "",
    completed: false,
@@ -12,7 +12,7 @@ const initState = {
 };
 
 export const Todos = () => {
-   const [todoList, setTodoList] = useState<TodoItem[]>([initState]);
+   const [todoList, setTodoList] = useState<TodoItem[]>([initTodoState]);
 
    const getTodos = async () => {
       const { data } = await makeTodosRequest(`query Todos {
